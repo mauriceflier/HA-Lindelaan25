@@ -1,0 +1,118 @@
+### History.yaml
+### What devices to track in history
+include:
+  domains:
+    - alarm_control_panel
+#   - automation
+    - binary_sensor
+    - camera
+    - climate
+    - device_tracker
+    - group
+    - light
+    - lock
+    - media_player
+    - person
+    - sensor
+    - sun
+    - switch
+    - weather
+    - zone
+exclude:
+  entities:
+  ### Updater niet tonen
+   - binary_sensor.updater
+  ### Idle camera's niet tonen
+   - camera.p1343_0
+   - camera.m2025_le_0
+  ### Individuele Hue lampen niet tonen
+   - light.hue_ambiance_spot_boven
+   - light.hue_ambiance_spot_onder
+   - light.hue_bloom_1
+   - light.hue_color_candle_bank_links
+   - light.hue_color_candle_bank_rechts
+   - light.hue_color_lamp_tv_meubel
+   - light.hue_color_spot_keukenwand
+   - light.hue_lightstrip_plus_bank
+   - light.hue_lightstrip_plus_buffetkast
+   - light.hue_lightstrip_plus_zolder
+   - light.on_off_plug_1
+   - light.on_off_plug_schuur
+   - light.on_off_plug_voortuin
+   - light.zolder_entertainment
+#### Stroommeters verbergen
+#### Stekkerdoos Zolder
+   - sensor.sonoff_computers_energy_apparentpower
+   - sensor.sonoff_computers_energy_current
+   - sensor.sonoff_computers_energy_factor
+   - sensor.sonoff_computers_energy_reactivepower
+   - sensor.sonoff_computers_energy_total
+   - sensor.sonoff_computers_energy_totalstarttime
+   - sensor.sonoff_computers_energy_voltage
+   - sensor.sonoff_computers_energy_yesterday
+   - sensor.sonoff_computers_status
+#### Stekkerdoos koelkast
+   - sensor.sonoff_koelkast_energy_apparentpower
+   - sensor.sonoff_koelkast_energy_current
+   - sensor.sonoff_koelkast_energy_factor
+   - sensor.sonoff_koelkast_energy_reactivepower
+   - sensor.sonoff_koelkast_energy_total
+   - sensor.sonoff_koelkast_energy_totalstarttime
+   - sensor.sonoff_koelkast_energy_voltage
+   - sensor.sonoff_koelkast_energy_yesterday
+   - sensor.sonoff_koelkast_status
+#### stekkerdoos Meterkast
+   - sensor.sonoff_meterkast_energy_apparentpower
+   - sensor.sonoff_meterkast_energy_current
+   - sensor.sonoff_meterkast_energy_factor
+   - sensor.sonoff_meterkast_energy_reactivepower
+   - sensor.sonoff_meterkast_energy_total
+   - sensor.sonoff_meterkast_energy_totalstarttime
+   - sensor.sonoff_meterkast_energy_voltage
+   - sensor.sonoff_meterkast_energy_yesterday
+   - sensor.sonoff_meterkast_status
+#### stekkerdoos vriezer schuur
+   - sensor.sonoff_vriezer_energy_apparentpower
+   - sensor.sonoff_vriezer_energy_current
+   - sensor.sonoff_vriezer_energy_factor
+   - sensor.sonoff_vriezer_energy_reactivepower
+   - sensor.sonoff_vriezer_energy_total
+   - sensor.sonoff_vriezer_energy_totalstarttime
+   - sensor.sonoff_vriezer_energy_voltage
+   - sensor.sonoff_vriezer_energy_yesterday
+   - sensor.sonoff_vriezer_status
+#### stekkerdoos wasdroger zolder
+   - sensor.sonoff_wasdroger_energy_apparentpower
+   - sensor.sonoff_wasdroger_energy_current
+   - sensor.sonoff_wasdroger_energy_factor
+   - sensor.sonoff_wasdroger_energy_reactivepower
+   - sensor.sonoff_wasdroger_energy_total
+   - sensor.sonoff_wasdroger_energy_totalstarttime
+   - sensor.sonoff_wasdroger_energy_voltage
+   - sensor.sonoff_wasdroger_energy_yesterday
+   - sensor.sonoff_wasdroger_status
+#### stekkerdoos wasmachine zolder
+   - sensor.sonoff_wasmachine_energy_apparentpower
+   - sensor.sonoff_wasmachine_energy_current
+   - sensor.sonoff_wasmachine_energy_factor
+   - sensor.sonoff_wasmachine_energy_reactivepower
+   - sensor.sonoff_wasmachine_energy_total
+   - sensor.sonoff_wasmachine_energy_totalstarttime
+   - sensor.sonoff_wasmachine_energy_voltage
+   - sensor.sonoff_wasmachine_energy_yesterday
+   - sensor.sonoff_wasmachine_status
+  ### Tesla objecten niet tonen
+   - climate.tesla_model_s_hvac_climate_system
+   - lock.tesla_model_s_charger_door_lock
+   - lock.tesla_model_s_door_lock
+   - sensor.tesla_model_s_mileage_sensor
+   - sensor.tesla_model_s_range_sensor
+   - sensor.tesla_model_s_temperature_sensor_inside
+   - sensor.tesla_model_s_temperature_sensor_outside
+   - switch.tesla_model_s_maxrange_switch
+  ### Iphone Bianca niet loggen
+   - sensor.iphone7_van_bianca_battery_level
+   - sensor.iphone7_van_bianca_battery_state
+  ### Diverse objecten niet tonen
+   - sensor.domains_in_use
+   - group.all_automations

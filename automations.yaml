@@ -1,0 +1,151 @@
+#### Automation instellingen
+#### Status sonoff apparaten bij opstarten
+- alias: "Power state on HA start-up"
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+    - service: mqtt.publish
+      data:
+        topic: "sonoffs/cmnd/state"
+        payload: ""
+
+#### Sonos uitschakelen wanneer alarm wordt ingeschakeld
+- id: '1568024588308'
+  alias: alarm.turnoffsonos
+  trigger:
+  - entity_id: alarm_control_panel.woonhuis
+    platform: state
+    from: disarmed
+    to: armed_away
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: media_player.garden
+      state: playing
+    - condition: state
+      entity_id: media_player.kitchen
+      state: playing
+    - condition: state
+      entity_id: media_player.lavatory
+      state: playing
+    - condition: state
+      entity_id: media_player.living_quarters
+      state: playing
+    - condition: state
+      entity_id: media_player.master_bedroom
+      state: playing
+  action:
+  - service: sonos.snapshot
+    data:
+      with_group: true
+  - service: media_player.media_pause
+  - service: notify.html5_m_flier_oneplus6
+    data:
+      message: Alarm ingeschakeld, Sonos uitgeschakeld
+
+#### Sonos inschakelen wanneer het alarm wordt uitgeschakeld.
+- alias: alarm.turnonsonos
+  trigger:
+  - entity_id: alarm_control_panel.woonhuis
+    platform: state
+    from: armed_away
+    to: disarmed
+  condition:
+  - condition: time
+    after: 07:00:00
+    before: '23:00:00'
+  action:
+  - service: sonos.restore
+    data:
+      with_group: true
+  id: c128e2c2a3b5494fbaf47da51aabd4e1
+  
+  #### Melding geven wanneer Bianca thuis komt.
+- alias: alarm.biancahome
+  trigger:
+  - entity_id: person.bianca
+    platform: state
+    from: not_home
+    to: home
+  condition:
+  - condition: time
+    after: '12:00:00'
+    before: '17:00:00'
+  action:
+  - service: notify.html5_m_flier_oneplus6
+    data:
+      message: Bianca is thuis
+  id: 3aeb3e573f124f6596d6199dd57aa01c
+  
+  #melding geven wanneer niemand thuis is. 
+- alias: alarm.niemandthuis
+  trigger:
+  - entity_id: group.all_devices
+    platform: state
+    from: home
+    to: not_home
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.woonhuis
+    state: disarmed
+  action:
+  - service: notify.html5_m_flier_oneplus6
+    data:
+      title: alarmcentrale
+      message: alarm niet ingeschakeld, iedereen weg. Alarm inschakelen?
+      data:
+        actions:
+        - action: arm_away
+          title: Alarm Inschakelen
+        ttl: 600
+        priority: high
+  id: 071f17afcd8e49d290afc3ed9d6c1912
+  
+  #Melding geven wanneer het alarm is ingeschakeld door notificatie.
+- alias: alarm.alarmingeschakeld
+  trigger:
+    platform: event
+    event_type: html5_notification.clicked
+    event_data:
+      action: arm_away
+  action:
+  - service: notify.html5_m_flier_oneplus6
+    data:
+      message: Alarm Ingeschakeld
+      data:
+        ttl: 600
+        priority: high
+  - service: alarm_control_panel.alarm_arm_away
+  id: ac6138ba2e8a497094c33f8d4bf6e060
+  
+#  Melding geven wanneer PIR beweging heeft gezien. 
+- id: '1568665681873'
+  alias: alarm.pir_woonkamer
+  trigger:
+  - entity_id: binary_sensor.pir_woonkamer
+    platform: state
+    to: 'on'
+  action:
+  - service: notify.html5_m_flier_oneplus6
+    data:
+      message: Beweging bij de PIR
+      data:
+        ttl: 600
+        priority: high
+
+#  Melding geven wanneer PIR beweging heeft gezien. 
+- alias: alarm.pir_woonkamer_status
+  trigger:
+  - platform: event
+    event_type: signal_received
+    event_data:
+      entity_id: alarm.pir_woonkamer
+  action:
+  - service: notify.html5_m_flier_oneplus6
+    data:
+      message: Beweging bij de PIR op signal received
+      data:
+        ttl: 600
+        priority: high

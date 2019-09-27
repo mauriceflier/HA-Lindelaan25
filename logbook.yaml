@@ -1,0 +1,19 @@
+### logbook.yaml
+### disable zolder logging
+  exclude:
+    entities:
+     ### Individuele Hue lampen niet tonen
+      - light.hue_ambiance_spot_boven
+      - light.hue_ambiance_spot_onder
+      - light.hue_bloom_1
+      - light.hue_color_candle_bank_links
+      - light.hue_color_candle_bank_rechts
+      - light.hue_color_lamp_tv_meubel
+      - light.hue_color_spot_keukenwand
+      - light.hue_lightstrip_plus_bank
+      - light.hue_lightstrip_plus_buffetkast
+      - light.hue_lightstrip_plus_zolder
+      - light.on_off_plug_1
+      - light.on_off_plug_schuur
+      - light.on_off_plug_voortuin
+      - light.zolder_entertainment

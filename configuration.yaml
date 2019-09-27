@@ -1,0 +1,82 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Text to speech
+tts:
+  - platform: google_translate
+  
+#SPC Gateway
+spc:
+  api_url: http://192.168.141.4:8088
+  ws_url: ws://192.168.141.4:8088
+  
+#Tesla Intergration
+tesla: 
+  username: !secret tesla_username
+  password: !secret tesla_password
+  scan_interval: 1200
+
+#Mikrotik Presence Intergration
+mikrotik:
+  - host: 192.168.141.254
+    username: !secret mikrotik_username
+    password: !secret mikrotik_password
+    ssl: true
+    method: capsman
+    track_devices: true
+
+device_tracker:
+  - platform: mikrotik
+    host: 192.168.141.254
+    username: !secret mikrotik_username
+    password: !secret mikrotik_password
+    interval_seconds: 10 
+    consider_home: 180
+    new_device_defaults:
+      track_new_devices: false
+      hide_if_away: false
+
+# mqtt autodiscovery enable
+#mqtt:
+#  discovery: true
+
+###UPNP Sensor - uitgeschakeld ivm geen meerwaarde
+#upnp:
+#  sensors: true
+#  local_ip: 192.168.141.1
+ 
+# Google notification key
+notify:
+  - platform: html5
+    name: html5
+    vapid_pub_key: !secret google_vapid_pub_key
+    vapid_prv_key: !secret google_vapid_prv_key
+    vapid_email: !secret google_vapid_email
+
+# Disable discovery of specific devices
+discovery:
+  ignore:
+    - google_cast
+    - igd
+    
+
+#Customize needs to be indented on homeassistant:
+homeassistant:
+  customize: !include customize.yaml
+
+#Configuration Files
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+sensor: !include sensor.yaml
+binary_sensor: !include binary_sensor.yaml
+zone: !include zone.yaml
+recorder: !include recorder.yaml
+history: !include history.yaml
+logbook: !include logbook.yaml
+logger: !include logger.yaml
+#template: !include template.yaml

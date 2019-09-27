@@ -1,0 +1,9 @@
+### template.yaml
+### Custom Template
+sensors:
+  domains_in_use:
+    friendly_name: Domains in use
+    value_template: >
+      {%- for d in states | groupby('domain') %}
+      {{ d[0] }}
+      {%- endfor %}
