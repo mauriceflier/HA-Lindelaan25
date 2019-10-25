@@ -14,17 +14,19 @@ spc:
   api_url: http://192.168.141.4:8088
   ws_url: ws://192.168.141.4:8088
   
-#Tesla Intergration
-tesla: 
-  username: !secret tesla_username
-  password: !secret tesla_password
-  scan_interval: 1200
+#Tesla Intergration - niet meer in gebruik ivm vampire drain.
+#tesla: 
+#  username: !secret tesla_username
+#  password: !secret tesla_password
+#  scan_interval: 1200
 
 #Mikrotik Presence Intergration
 mikrotik:
   - host: 192.168.141.254
     username: !secret mikrotik_username
     password: !secret mikrotik_password
+#    username: homeassistant
+#    password: D683BC2n2w64
     ssl: true
     method: capsman
     track_devices: true
@@ -32,6 +34,8 @@ mikrotik:
 device_tracker:
   - platform: mikrotik
     host: 192.168.141.254
+#    username: homeassistant
+#    password: D683BC2n2w64
     username: !secret mikrotik_username
     password: !secret mikrotik_password
     interval_seconds: 10 
@@ -49,34 +53,43 @@ device_tracker:
 #  sensors: true
 #  local_ip: 192.168.141.1
  
-# Google notification key
-notify:
-  - platform: html5
-    name: html5
-    vapid_pub_key: !secret google_vapid_pub_key
-    vapid_prv_key: !secret google_vapid_prv_key
-    vapid_email: !secret google_vapid_email
-
 # Disable discovery of specific devices
 discovery:
   ignore:
     - google_cast
     - igd
-    
+#### Wake_on_lan enable
+wake_on_lan: # enables `wake_on_lan` domain   
 
 #Customize needs to be indented on homeassistant:
 homeassistant:
-  customize: !include customize.yaml
+  customize: !include configuration/customize.yaml
 
 #Configuration Files
-group: !include groups.yaml
-automation: !include automations.yaml
-script: !include scripts.yaml
-sensor: !include sensor.yaml
-binary_sensor: !include binary_sensor.yaml
-zone: !include zone.yaml
-recorder: !include recorder.yaml
-history: !include history.yaml
-logbook: !include logbook.yaml
-logger: !include logger.yaml
+
+automation: !include configuration/automations.yaml
+binary_sensor: !include configuration/binary_sensor.yaml
+group: !include configuration/group.yaml
+history: !include configuration/history.yaml
+input_boolean: !include configuration/input_boolean.yaml
+input_number: !include configuration/input_number.yaml
+input_select: !include configuration/input_select.yaml
+logbook: !include configuration/logbook.yaml
+logger: !include configuration/logger.yaml
+media_player: !include configuration/media_player.yaml
+notify: !include configuration/notify.yaml
+recorder: !include configuration/recorder.yaml
+script: !include configuration/scripts.yaml
+sensor: !include configuration/sensor.yaml
+switch: !include configuration/switch.yaml
+zone: !include configuration/zone.yaml
 #template: !include template.yaml
+#camera: !include configuration/camera.yaml
+#media_player: !include configuration/media_player.yaml
+#light: !include configuration/light.yaml
+#switch: !include configuration/switch.yaml
+#device_tracker: !include configuration/device_tracker.yaml
+#alarm_control_panel: !include configuration/alarms.yaml
+#scene: !include configuration/scenes.yaml
+#shell_command: !include configuration/shell_command.yaml
+#input_boolean: !include configuration/input_boolean.yaml

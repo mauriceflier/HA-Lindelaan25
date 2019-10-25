@@ -13,6 +13,7 @@
 .google.token
 tts
 
+
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 ip_bans.yaml
 secrets.yaml
@@ -20,3 +21,6 @@ known_devices.yaml
 
 mauriceflier
 xw3y4gAhGrMc
+
+git remote add origin https://github.com/mauriceflier/HA-Lindelaan25
+git push -u origin master

@@ -1,0 +1,27 @@
+  condition:
+  - condition: template
+    value_template: "{{ not is_state('person.maurice', 'not_home') }}"
+	
+	
+{"message":"hello world"}
+{
+"group_name": "Woonkamer",
+"scene_name": "Ontspannen",
+}
+      
+      
+data_template:
+        entity_id: input_number.target_temp
+        value: "{{ trigger.payload }}"
+        
+        state_attr('binary_sensor.openclose_13', 'battery_level')
+        
+{
+  "entity_id": "input_number.tesla_battery_input",
+"value": "{{ sensor.teslamodels_status.usable_battery_level | float }}"
+}
+
+{
+  "entity_id": "input_number.tesla_battery_input",
+"value": "{{ state_attr('sensor.teslamodels_status', 'usable_battery_level' | float }}"
+}
