@@ -1,0 +1,8 @@
+### Logger.yaml
+### Advanced logger configuration
+  default: error
+  logs:
+    # log level for HA core
+    homeassistant.core: fatal
+    # log level for spc integration
+    homeassistant.components.spc: debug

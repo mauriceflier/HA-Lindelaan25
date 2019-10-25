@@ -1,0 +1,10 @@
+### Input_boolean
+### Wekkerradio input
+wakeup:
+   name: 'Enable wakeup light'
+   icon: mdi:power
+   initial: off
+wakeup_weekends:
+   name: 'Wakeup weekends'
+   icon: mdi:power
+   initial: off

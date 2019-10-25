@@ -6,6 +6,7 @@
 !*.yaml
 !.gitignore
 !*.md
+!configuration
 
 # Ignore folders.
 .storage

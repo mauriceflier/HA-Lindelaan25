@@ -1,0 +1,144 @@
+### sensor.yaml
+### MQTT DSMR Sensors
+  - platform: mqtt
+    name: "electricity_used"
+    state_topic: "dsmr/json"
+    unit_of_measurement: "w"
+    device_class: power
+    value_template: "{{ value_json.electricity_currently_delivered|float*1000|round(0) }}"
+  - platform: mqtt
+    name: "electricity_delivered"
+    state_topic: "dsmr/json"
+    unit_of_measurement: "w"
+    device_class: power
+    value_template: "{{ value_json.electricity_currently_returned|float*1000|round(0) }}"
+  - platform: template
+    sensors:
+      electricity_sum:
+        friendly_name: "huidig netto energieverbruik"
+        unit_of_measurement: 'w'
+        device_class: power
+        value_template: "{{ states('sensor.electricity_used') | float - states('sensor.electricity_delivered') | float }}"
+
+  - platform: mqtt
+    name: "daily_electricity_used"
+    state_topic: "dsmr/day-consumption"
+    unit_of_measurement: "w"
+    device_class: power
+    value_template: "{{ value_json.electricity_merged|float*1000|round(0) }}"
+  - platform: mqtt
+    name: "daily_electricity_delivered"
+    state_topic: "dsmr/day-consumption"
+    unit_of_measurement: "w"
+    device_class: power
+    value_template: "{{ value_json.electricity_returned_merged|float*1000|round(0) }}"
+  - platform: template
+    sensors:
+      daily_electricity_sum:
+        friendly_name: "dagelijks netto energieverbruik"
+        unit_of_measurement: 'kwh'
+        device_class: power
+        value_template: "{{ ((states('sensor.daily_electricity_used') | float - states('sensor.daily_electricity_delivered')|float)|float / 1000 )|round(2)}}"
+
+### Witgoed Sensors
+# Template Sensors
+  - platform: template
+    sensors:
+  # Washingmachine/droger/Template Sensors
+      wasmachine_status:
+        value_template: '{{ states.input_select.wasmachine_status.state}}'
+        friendly_name: 'Wasmachine Status'
+      wasdroger_status:
+        value_template: '{{ states.input_select.wasdroger_status.state}}'
+        friendly_name: 'Wasdroger Status'
+
+### Teslafi API sensors
+  - platform: rest
+    name: "teslamodels_status"
+    resource: !secret teslafi_apitokenurl
+    value_template: '{{ value_json.data_id }}'
+    scan_interval: 60
+    json_attributes:
+      - state
+      - carState
+      - vehicle_name
+      - car_version
+      - usable_battery_level
+      - est_battery_range
+      - is_climate_on
+      - driver_temp_setting
+      - inside_temp
+      - outside_temp
+      - location
+      - longitude
+      - latitude
+  - platform: template
+    sensors:
+      tesla_battery:
+        value_template: '{{ states.input_number.tesla_battery_input.state | int | round(0) }}'
+        unit_of_measurement: '%'
+        device_class: battery
+
+#  - platform: template
+#    sensors:
+#      tesla_battery:
+#        value_template: '{{ states.sensor.teslamodels_status.attributes.usable_battery_level }}'
+#        unit_of_measurement: '%'
+#        device_class: battery
+
+### Wekkerradio Ontwaaktijd
+  - platform: template
+    sensors:
+      wakeup_alarm_time:
+        friendly_name: 'Alarm time'
+        value_template: '{% if states.input_number.wakeup_hour.state|length == 3 %}0{% endif %}{{ states.input_number.wakeup_hour.state | int }}:{% if states.input_number.wakeup_minutes.state|length == 3 %}0{% endif %}{{ states.input_number.wakeup_minutes.state | int }}'
+        
+  - platform: template
+    sensors:
+      wakeup_start_time_lights:
+        friendly_name: 'Fade-in start time'
+        value_template: >
+          {% if states.sensor.wakeup_alarm_time and states.input_number.wakeup_duration %}
+          {% set alarmtime = states.sensor.wakeup_alarm_time.state %}
+          {% set alarm_hour = alarmtime.split(":")[0] | int %}
+          {% set alarm_min = alarmtime.split(":")[1] | int %}
+          {% set light_dur = states.input_number.wakeup_duration.state | int %}
+          {% set alarm_min_light = alarm_min - light_dur %}
+          {% if alarm_min_light  < 0 %}
+          {% set alarm_min_light = alarm_min_light + 60 %}
+          {% set alarm_hour_light = alarm_hour - 1 %}
+          {% if alarm_hour_light < 0 %}{% set alarm_hour_light = 23 %}{% endif %}
+          {% if alarm_hour_light < 10 %}0{% endif %}{{ alarm_hour_light}}:{% if alarm_min_light < 10 %}0{% endif %}{{ alarm_min_light }}
+          {% else %}
+          {% if alarm_hour < 10 %}0{% endif %}{{ alarm_hour }}:{% if alarm_min_light < 10 %}0{% endif %}{{ alarm_min_light }}
+          {% endif %}
+          {% endif %}
+
+  - platform: template
+    sensors:
+      wakeup_fadein_duration:
+        friendly_name: 'Fade-in duration'
+        value_template: '{{ states.input_number.wakeup_duration.state | int }}'
+        unit_of_measurement: 'min'
+
+### Reistijdcalculator van Waze
+  - platform: waze_travel_time
+    name: "Home to PWA"
+    origin: zone.pwa_bv
+    destination: zone.home
+    region: EU
+
+  - platform: waze_travel_time
+    name: "PWA to Home"
+    origin: zone.home
+    destination: zone.pwa_bv
+    region: EU
+    
+  - platform: template
+    sensors:
+      domains_in_use:
+        friendly_name: Domains in use
+        value_template: >
+          {%- for d in states | groupby('domain') %}
+          {{ d[0] }}
+          {%- endfor %}

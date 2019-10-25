@@ -1,0 +1,27 @@
+#  vaatwasser_status:
+#    name: Vaatwasser Status
+#    options:
+#      - Idle
+#      - Running
+#      - Drying
+#      - Clean
+#      - Power OFF
+#    initial: Idle
+  wasmachine_status:
+    name: Wasmachine Status
+    options:
+      - Idle
+      - Running
+      - Finishing
+      - Clean
+      - Power OFF
+    initial: Power OFF
+  wasdroger_status:
+    name: Wasdroger Status
+    options:
+      - Idle
+      - Running
+      - Finishing
+      - Clean
+      - Power OFF
+    initial: Power OFF

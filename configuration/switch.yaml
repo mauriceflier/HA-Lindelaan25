@@ -1,0 +1,10 @@
+### Switch.yaml
+### Tesla switches
+ - platform: command_line
+   switches:
+     tesla_hvac_control:
+       command_on: !secret teslafi_api_hvac_on
+       command_off: !secret teslafi_api_hvac_off
+       command_state: !secret teslafi_api_hvac_state
+       value_template: '{{ value_json.is_climate_on }}'
+#    

@@ -1,0 +1,25 @@
+### Scripts.yaml
+### https://community.home-assistant.io/t/phillips-hue-wakeup-light-with-fade-in/18688/22
+
+hue_woonkamer_onoff:
+  sequence:
+  - service_template: script.hue_woonkamer_{% if is_state('light.woonkamer', 'off') %}ontspanning{% else %}off{% endif %}
+
+hue_woonkamer_ontspanning:
+  sequence:
+    - service: hue.hue_activate_scene
+      data:
+        group_name: "Woonkamer"
+        scene_name: "Ontspannen"
+
+hue_woonkamer_gedimd:
+  sequence:
+    - service: hue.hue_activate_scene
+      data:
+        group_name: "Woonkamer"
+        scene_name: "Gedimd"
+
+hue_woonkamer_off:
+  sequence:
+      - service: light.turn_off
+        entity_id: light.woonkamer
