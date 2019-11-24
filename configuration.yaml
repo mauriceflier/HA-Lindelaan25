@@ -12,7 +12,7 @@ tts:
 #SPC Gateway
 spc:
   api_url: http://192.168.141.4:8088
-  ws_url: ws://192.168.141.4:8088
+  ws_url: ws://192.168.141.4:8088/ws/spc
   
 #Tesla Intergration - niet meer in gebruik ivm vampire drain.
 #tesla: 

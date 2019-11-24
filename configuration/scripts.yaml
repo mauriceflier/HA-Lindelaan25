@@ -1,6 +1,12 @@
 ### Scripts.yaml
 ### https://community.home-assistant.io/t/phillips-hue-wakeup-light-with-fade-in/18688/22
-
+#### Scripts instellingen
+#################################################################################
+#        Hue Lighting Scripts                                                   #
+#################################################################################
+#
+#### Woonkamer Lighting Scripts
+#
 hue_woonkamer_onoff:
   sequence:
   - service_template: script.hue_woonkamer_{% if is_state('light.woonkamer', 'off') %}ontspanning{% else %}off{% endif %}
@@ -19,7 +25,61 @@ hue_woonkamer_gedimd:
         group_name: "Woonkamer"
         scene_name: "Gedimd"
 
+hue_woonkamer_inschakelen:
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.woonkamer
+        color_temp: 429
+        brightness: 127
+
 hue_woonkamer_off:
   sequence:
-      - service: light.turn_off
+    - service: light.turn_off
+      data:
         entity_id: light.woonkamer
+
+hue_woonkamer_auto_on:
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.woonkamer
+        color_temp: 429
+        brightness: 127
+        transition: 120
+
+hue_woonkamer_auto_off:
+  sequence:
+     - service: light.turn_off
+       entity_id: light.woonkamer
+
+#
+#### Tuin Lighting Scripts
+#
+hue_tuin_on:
+  sequence:
+    - service: hue.hue_activate_scene
+      data:
+        group_name: "Tuin"
+        scene_name: "Ontspannen"
+
+hue_tuin_off:
+  sequence:
+      - service: light.turn_off
+        entity_id: light.tuin
+
+#################################################################################
+#        Morning Wakeup Scripts                                                 #
+#################################################################################
+# Script voor inschakelen woonkamerlicht en sonos.
+#
+workday_morning_sonos:
+  sequence:
+    - service: script.turn_on
+      entity_id: script.hue_woonkamer_inschakelen
+    - service: media_player.select_source
+      entity_id: media_player.kitchen
+      data:
+        source: "Sky Radio"
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.oncedaily_morning_workday

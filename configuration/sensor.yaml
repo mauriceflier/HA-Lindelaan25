@@ -57,7 +57,7 @@
     name: "teslamodels_status"
     resource: !secret teslafi_apitokenurl
     value_template: '{{ value_json.data_id }}'
-    scan_interval: 60
+    scan_interval: 10
     json_attributes:
       - state
       - carState
@@ -142,3 +142,8 @@
           {%- for d in states | groupby('domain') %}
           {{ d[0] }}
           {%- endfor %}
+
+  - platform: postnl
+    name: "PostNL Maurice"
+    username: !secret postnl_mf_username
+    password: !secret postnl_mf_password

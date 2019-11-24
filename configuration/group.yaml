@@ -12,3 +12,10 @@ wakeuplight:
     - input_number.wakeup_duration
     - input_boolean.wakeup
     - input_boolean.wakeup_weekends
+
+dailyswitches:
+  name: daily switches
+  all: true
+  control: hidden
+  entities:
+    - input_boolean.oncedaily_morning_workday

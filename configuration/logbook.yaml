@@ -2,6 +2,7 @@
 ### disable zolder logging
   exclude:
     entities:
+      - binary_sensor.spc_pir_woonkamer
      ### Individuele Hue lampen niet tonen
       - light.hue_ambiance_spot_boven
       - light.hue_ambiance_spot_onder

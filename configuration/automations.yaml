@@ -1,9 +1,14 @@
 #### Automation instellingen
+#################################################################################
+#        Reboot Automations                                                      #
+#################################################################################
+#
 #### Status sonoff apparaten bij opstarten
-- alias: "Power state on HA start-up"
+- alias: "tasmota.powerstate"
   trigger:
     platform: homeassistant
     event: start
+  initial_state: 'true'
   action:
     - service: mqtt.publish
       data:
@@ -15,10 +20,142 @@
         payload: ""
 
 #################################################################################
+#        daily Automations                                                      #
+#################################################################################
+#
+#### Reset daily switches
+- alias: switch.turnon_dailyswitches
+  trigger:
+    platform: time
+    at: "0:05:00"
+  action:
+    service: homeassistant.turn_on
+    entity_id: group.dailyswitches
+
+- alias: daily.morningwoonkamer_hue
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.spc_pir_woonkamer
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.oncedaily_morning_workday
+      state: 'on'
+    - condition: time
+      after: '04:00:00'
+      before: '11:00:00'
+  action:
+  - service: script.turn_on
+    entity_id: script.workday_morning_sonos
+   
+#################################################################################
+#        Media Player Automations                                                #
+#################################################################################
+#
+#### TV On Sonos off
+- alias: media.tv_on
+  trigger:
+    platform: state
+    entity_id: media_player.tv_woonkamer
+    from: 'off'
+    to: 'playing'
+  condition: 
+    condition: state
+    entity_id: media_player.kitchen
+    state: playing
+  action:
+  - service: media_player.media_pause
+    entity_id: media_player.kitchen
+  
+  
+#################################################################################
+#        Verlichting Automations                                                #
+#################################################################################
+#################################################################################
+#        Woonkamer Automations                                                  #
+#################################################################################
+#
+#### Verlichting aan bij zonsondergang
+- alias: light.sundown_Woonkamer_on
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-00:05:00"
+  condition:
+    condition: state
+    entity_id: light.woonkamer
+    state: "off"
+  action:
+    service: script.turn_on
+    entity_id: script.hue_woonkamer_auto_on
+#    
+#### Verlichting uit om 22:30
+- alias: light.sundown_woonkamer_off
+  trigger:
+    platform: time
+    at: "22:30:00"
+  action:
+    service: script.turn_on
+    entity_id: script.hue_woonkamer_auto_off
+
+#### Verlichting bij zonsopkomst
+- alias: light.sunrise_woonkamer_off
+  trigger:
+    platform: sun
+    event: sunrise
+    offset: "00:05:00"
+  condition:
+    condition: state
+    entity_id: light.woonkamer
+    state: "on"
+  action:
+    service: script.turn_on
+    entity_id: script.hue_woonkamer_auto_off
+#################################################################################
+#        Tuin Automations                                                       #
+#################################################################################
+#
+#### Verlichting tuin aan bij zonsondergang
+- alias: light.sundown_tuin_on
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-00:05:00"
+  action:
+    service: script.turn_on
+    entity_id: script.hue_tuin_on
+    
+#### Verlichting tuin uit om 22:30
+- alias: light.sundown_tuin_off
+  trigger:
+    platform: sun
+    event: sunrise
+    offset: "00:05:00"
+  action:
+    service: script.turn_on
+    entity_id: script.hue_tuin_off
+
+#################################################################################
 #        Alarm Automations                                                      #
 #################################################################################
 #
 #### Sonos uitschakelen wanneer alarm wordt ingeschakeld
+- alias: alarm.turnoffhuewoonkamer
+  trigger:
+  - entity_id: alarm_control_panel.woonhuis
+    platform: state
+    from: disarmed
+    to: armed_away
+  condition:
+  - condition: time
+    after: '05:00:00'
+    before: '12:00:00'
+  action:
+    service: script.turn_on
+    entity_id: script.hue_woonkamer_auto_off
+
 - id: '1568024588308'
   alias: alarm.turnoffsonos
   trigger:
@@ -149,22 +286,7 @@
       data_template:
         value: "{{ state_attr('sensor.teslamodels_status', 'usable_battery_level') }}"
 
-#- alias: tesla.01.batterystate
-#  initial_state: 'true'
-#  trigger:
-#    - platform: numeric_state
-#      entity_id: sensor.teslamodels_status
-#      value_template: "{{ state.attributes.usable_battery_level }}"
-#      above: 0
-#  action:
-#    - service: input_number.set_value
-#      entity_id: input_number.tesla_battery_input
-#      data_template:
-#        value: "{{ state_attr('sensor.teslamodels_status', 'usable_battery_level') }}"
-#
-#
-#
-# 
+ 
 #################################################################################
 #        Wasmachine, Droger en Vaatwasser Automations                           #
 #################################################################################
@@ -202,9 +324,9 @@
   trigger:
     - platform: numeric_state
       entity_id: sensor.sonoff_wasmachine_energy_power
-      below: 30
+      below: 20
       for:
-        minutes: 3
+        minutes: 4
   condition:
   - condition: state
     entity_id: input_select.wasmachine_status
@@ -245,6 +367,34 @@
       data:
         entity_id: input_select.wasmachine_status
         option: Power OFF
+
+- alias: wasmachine.99.cleanmelding
+  initial_state: 'true'
+  trigger:
+    - platform: state
+      entity_id: sensor.wasmachine_status
+      to: Clean
+      for:
+        minutes: 1
+  condition:
+    condition: and
+    conditions:
+#      - condition: time
+#        before: '22:30:00'
+#        after: '05:45:00'
+#      - condition: state
+#        entity_id: group.device_status
+#        state: 'home'
+      - condition: state
+        entity_id: input_select.wasmachine_status
+        state: Clean
+  action:
+  - service: notify.html5_m_flier_oneplus6
+    data:
+      message: Wasmachine is klaar
+  - service: notify.ios_iphone7_van_bianca
+    data:
+      message: Wasmachine is klaar
 #
 #################################################################################
 #        Wasdroger Automations                                                 #
@@ -330,9 +480,6 @@
       - condition: state
         entity_id: input_select.wasdroger_status
         state: Power OFF
-#      - condition: state
-#        entity_id: input_select.wasdroger_status
-#        state: Clean
   action:
     - service: input_select.select_option
       data:
@@ -350,161 +497,6 @@
       data:
         entity_id: input_select.wasdroger_status
         option: Power OFF
-
-
-#
-## Vaatwasser Gereed Notificatie
-#- alias: Send alert when vaatwasser is clean
-#  initial_state: 'true'
-#  trigger:
-#    - platform: state
-#      entity_id: input_select.vaatwasser_status
-#      to: Clean
-#    - platform: state
-#      entity_id: person.jimmy
-#      to: 'home'
-#      for:
-#        minutes: 3
-#    - platform: state
-#      entity_id: person.stephanie
-#      to: 'home'
-#      for:
-#        minutes: 3
-#  condition:
-#    condition: and
-#    conditions:
-#      - condition: time
-#        before: '22:30:00'
-#        after: '08:29:00'
-#      - condition: state
-#        entity_id: group.device_status
-#        state: 'home'
-#      - condition: state
-#        entity_id: input_select.vaatwasser_status
-#        state: Clean
-#      # Don't send this alert if it was last triggered less than 30 minutes ago (1,800 seconds)
-#      - condition: template
-#        value_template: >
-#          {% if states.automation.send_alert_when_vaatwasser_is_clean.last_triggered is not none %}
-#            {% if as_timestamp(now()) | int   -  as_timestamp(states.automation.send_alert_when_vaatwasser_is_clean.attributes.last_triggered) | int > 3600 %} true {% else %} false
-#            {% endif %}
-#          {% else %}
-#          false
-#          {% endif %}
-#  action:
-#    - service_template: >
-#        {% if (is_state('person.jimmy', 'home')) and (is_state('person.stephanie', 'home'))  %}
-#          notify.ios_notifier
-#        {% elif is_state('person.jimmy', 'home') %}
-#          notify.mobile_app_iphone
-#        {% elif is_state('person.stephanie', 'home') %}
-#          notify.mobile_app_iphone_stephanie
-#        {% endif %}
-#      data:
-#        message: 'De Vaatwasser heeft zijn programma voltooid en kan leeggemaakt worden!'
-#        title: 'Vaatwasser'
-#        data:
-#          push:
-#            badge: 0
-#            sound: default
-#            category: "vaatwasser_alert"
-##    - service: xiaomi_aqara.play_ringtone
-##      data_template:
-##        ringtone_id: 10002
-##        ringtone_vol: 100
-##        gw_mac: 78:11:DC:DE:F3:24
-#
-## Wasmachine Gereed Notificatie
-#- alias: Send alert when washing machine is finished
-#  initial_state: 'true'
-#  trigger:
-#    - platform: state
-#      entity_id: sensor.wasmachine_status
-#      to: Clean
-#      for:
-#        minutes: 1
-#    - platform: state
-#      entity_id: person.jimmy
-#      to: 'home'
-#      for:
-#        minutes: 3
-#    - platform: state
-#      entity_id: person.stephanie
-#      to: 'home'
-#      for:
-#        minutes: 3
-#  condition:
-#    condition: and
-#    conditions:
-#      - condition: time
-#        before: '01:30:00'
-#        after: '08:30:00'
-#      - condition: state
-#        entity_id: group.device_status
-#        state: 'home'
-#      - condition: state
-#        entity_id: input_select.wasmachine_status
-#        state: Clean
-#      - condition: template
-#        value_template: >
-#          {% if states.automation.send_alert_when_wasmachine_is_finished.last_triggered is not none %}
-#            {% if as_timestamp(now()) | int   -  as_timestamp(states.automation.send_alert_when_wasmachine_is_finished.attributes.last_triggered) | int > 1800 %} true {% else %} false
-#            {% endif %}
-#          {% else %}
-#          false
-#          {% endif %}
-#  action:
-#    - service_template: >
-#        {% if (is_state('person.jimmy', 'home')) and (is_state('person.stephanie', 'home'))  %}
-#          notify.ios_notifier
-#        {% elif is_state('person.jimmy', 'home') %}
-#          notify.mobile_app_iphone
-#        {% elif is_state('person.jimmy', 'home') %}
-#          notify.mobile_app_iphone_stephanie
-#        {% endif %}
-#      data:
-#        message: 'De Wasmachine heeft zijn programma voltooid en kan leeggemaakt worden!'
-#        title: 'Wasmachine'
-#        data:
-#          push:
-#            badge: 0
-#            sound: default
-#            category: "wasmachine_alert" 
-##    - service: xiaomi_aqara.play_ringtone
-##      data_template:
-##        ringtone_id: 10005
-##        ringtone_vol: 100
-##        gw_mac: 78:11:DC:DE:F3:24
-#
-
-  #### Melding geven wanneer Bianca thuis komt.
-- alias: wasmachine.99.cleanmelding
-  initial_state: 'true'
-  trigger:
-    - platform: state
-      entity_id: sensor.wasmachine_status
-      to: Clean
-      for:
-        minutes: 1
-  condition:
-    condition: and
-    conditions:
-      - condition: time
-        before: '22:30:00'
-        after: '05:45:00'
-#      - condition: state
-#        entity_id: group.device_status
-#        state: 'home'
-      - condition: state
-        entity_id: input_select.wasmachine_status
-        state: Clean
-  action:
-  - service: notify.html5_m_flier_oneplus6
-    data:
-      message: Wasmachine is klaar
-  - service: notify.ios_iphone7_van_bianca
-    data:
-      message: Wasmachine is klaar
       
 - alias: wasdroger.99.cleanmelding
   initial_state: 'true'
@@ -517,9 +509,9 @@
   condition:
     condition: and
     conditions:
-      - condition: time
-        before: '22:30:00'
-        after: '05:45:00'
+#      - condition: time
+#        before: '22:30:00'
+#        after: '05:45:00'
 #      - condition: state
 #        entity_id: group.device_status
 #        state: 'home'
@@ -533,6 +525,7 @@
   - service: notify.ios_iphone7_van_bianca
     data:
       message: Wasdroger is klaar
+
 # Droger Gereed Notificatie
 #- alias: wasdroger.cleanmelding
 #  initial_state: 'true'

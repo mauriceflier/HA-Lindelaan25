@@ -8,3 +8,8 @@ wakeup_weekends:
    name: 'Wakeup weekends'
    icon: mdi:power
    initial: off
+   
+oncedaily_morning_workday:
+   name: 'morning workday'
+   initial: on
+
