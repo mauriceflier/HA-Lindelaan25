@@ -12,8 +12,8 @@
   action:
     - service: mqtt.publish
       data:
-        topic: "cmnd/sonoffs/state"
-        payload: ""
+        topic: "sonoffs/cmnd/SetOption19"
+        payload: "1"
     - service: mqtt.publish
       data:
         topic: "sonoffs/cmnd/state"

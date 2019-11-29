@@ -25,8 +25,6 @@ mikrotik:
   - host: 192.168.141.254
     username: !secret mikrotik_username
     password: !secret mikrotik_password
-#    username: homeassistant
-#    password: D683BC2n2w64
     ssl: true
     method: capsman
     track_devices: true
@@ -34,8 +32,6 @@ mikrotik:
 device_tracker:
   - platform: mikrotik
     host: 192.168.141.254
-#    username: homeassistant
-#    password: D683BC2n2w64
     username: !secret mikrotik_username
     password: !secret mikrotik_password
     interval_seconds: 10 

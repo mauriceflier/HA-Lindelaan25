@@ -143,7 +143,7 @@
           {{ d[0] }}
           {%- endfor %}
 
-  - platform: postnl
-    name: "PostNL Maurice"
-    username: !secret postnl_mf_username
-    password: !secret postnl_mf_password
+#  - platform: postnl
+#    name: "PostNL Maurice"
+#    username: !secret postnl_mf_username
+#    password: !secret postnl_mf_password
