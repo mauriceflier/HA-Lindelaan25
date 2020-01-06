@@ -19,3 +19,14 @@ dailyswitches:
   control: hidden
   entities:
     - input_boolean.oncedaily_morning_workday
+
+sonosplayers:
+  name: Sonos Players
+#  control: hidden
+  all: true
+  entities:
+    - media_player.garden
+    - media_player.kitchen
+    - media_player.lavatory
+    - media_player.living_quarters
+    - media_player.master_bedroom

@@ -25,3 +25,46 @@ data_template:
   "entity_id": "input_number.tesla_battery_input",
 "value": "{{ state_attr('sensor.teslamodels_status', 'usable_battery_level' | float }}"
 }
+
+
+hass
+3vckG6hYY5Kb
+
+mysql -uhass -p
+
+user: root
+pass: 32xEUnz685yU
+
+docker run -d \
+  --name="homeassistant" \
+  -v /volume1/docker/HomeAssistant:/config \
+  -v /etc/localtime:/etc/localtime:ro \
+  --net=host \
+  -e TZ=Europe/Amsterdam \
+  homeassistant/home-assistant
+  
+docker run -d \
+  --name="mariadb" \
+  -v /volume1/docker/mariadb:/var/lib/mysql \
+  -p 3336:3306 \
+  -e TZ=Europe/Amsterdam  \
+  -e MYSQL_PASSWORD=3vckG6hYY5Kb  \
+  -e MYSQL_USER=hass  \
+  -e MYSQL_DATABASE=hass  \
+  -e MYSQL_ROOT_PASSWORD=32xEUnz685yU  \
+  mariadb:10.4.11
+  
+  
+  docker run -d \
+    --name phpmyadmin  \
+	-e PMA_HOST=127.0.0.1  \
+	-e PMA_PORT=3336  \ 
+	-p 8080:80  \
+	phpmyadmin/phpmyadmin
+
+
+docker run -d \
+  --name phpmyadmin  \
+  --link mariadb:db  \
+  -p 8080:80  \
+  phpmyadmin/phpmyadmin

@@ -50,10 +50,12 @@ device_tracker:
 #  local_ip: 192.168.141.1
  
 # Disable discovery of specific devices
-discovery:
-  ignore:
-    - google_cast
-    - igd
+# Comment discovery for disabled discovery
+#discovery:
+#  ignore:
+#    - google_cast
+#    - igd
+
 #### Wake_on_lan enable
 wake_on_lan: # enables `wake_on_lan` domain   
 

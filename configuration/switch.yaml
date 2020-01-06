@@ -8,3 +8,9 @@
        command_state: !secret teslafi_api_hvac_state
        value_template: '{{ value_json.is_climate_on }}'
 #    
+ - platform: wake_on_lan
+   name: pc-maurice
+   mac: 74:D4:35:A8:43:B8
+   host: pc-maurice
+   
+   

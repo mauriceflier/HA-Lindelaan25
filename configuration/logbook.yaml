@@ -19,6 +19,13 @@
       - light.on_off_plug_1
       - light.on_off_plug_schuur
       - light.on_off_plug_voortuin
+     ### Zones niet tonen
+      - light.keuken_buffetkast
+      - light.keuken_wand
+      - light.slaapkamer_nachtlamp_links
+      - light.slaapkamer_nachtlamp_rechts
       - light.zolder_entertainment
+      - light.woonkamer_bank
+      - light.woonkamer_tv
      ### Tesla Model S Json-logger
       - sensor.teslamodels_status

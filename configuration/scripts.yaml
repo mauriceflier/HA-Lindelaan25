@@ -11,12 +11,25 @@ hue_woonkamer_onoff:
   sequence:
   - service_template: script.hue_woonkamer_{% if is_state('light.woonkamer', 'off') %}ontspanning{% else %}off{% endif %}
 
+hue_woonkamer_off:
+  sequence:
+    - service: light.turn_off
+      data:
+        entity_id: 
+          - light.woonkamer
+#          - light.hue_bloom_1
+
 hue_woonkamer_ontspanning:
   sequence:
     - service: hue.hue_activate_scene
       data:
         group_name: "Woonkamer"
         scene_name: "Ontspannen"
+    - service: light.turn_on
+      data:
+        entity_id: light.hue_bloom_1
+        rgb_color: [255,176, 82]
+        brightness: 127
 
 hue_woonkamer_gedimd:
   sequence:
@@ -32,13 +45,12 @@ hue_woonkamer_inschakelen:
         entity_id: light.woonkamer
         color_temp: 429
         brightness: 127
-
-hue_woonkamer_off:
-  sequence:
-    - service: light.turn_off
-      data:
-        entity_id: light.woonkamer
-
+#    - service: light.turn_on
+#      data:
+#        entity_id: light.hue_bloom_1
+#        rgb_color: [255,176, 82]
+#        brightness: 127
+        
 hue_woonkamer_auto_on:
   sequence:
     - service: light.turn_on

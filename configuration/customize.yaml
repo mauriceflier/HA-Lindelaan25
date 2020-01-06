@@ -132,21 +132,6 @@ sensor.sonoff_meterkast_energy_yesterday:
     hidden: true
 switch.sonoff_meterkast:
     hidden: true
-##stekkerdoos nog geen bestemming
-#sensor.sonoff_onbekend_energy_apparentpower:
-#    hidden: true
-#sensor.sonoff_onbekend_energy_current:
-#    hidden: true
-#sensor.sonoff_onbekend_energy_factor:
-#    hidden: true
-#sensor.sonoff_onbekend_energy_reactivepower:
-#    hidden: true
-#sensor.sonoff_onbekend_energy_total:
-#    hidden: true
-#sensor.sonoff_onbekend_energy_totalstarttime:
-#    hidden: true
-#sensor.sonoff_onbekend_energy_yesterday:
-#    hidden: true
 #stekkerdoos vriezer schuur
 sensor.sonoff_vriezer_energy_apparentpower:
     hidden: true

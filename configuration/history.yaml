@@ -31,10 +31,10 @@ exclude:
    - light.hue_ambiance_spot_boven
    - light.hue_ambiance_spot_onder
    - light.hue_bloom_1
-   - light.hue_color_candle_bed_links
-   - light.hue_color_candle_bed_rechts
    - light.hue_color_candle_bank_links
    - light.hue_color_candle_bank_rechts
+   - light.hue_color_candle_bed_links
+   - light.hue_color_candle_bed_rechts
    - light.hue_color_lamp_tv_meubel
    - light.hue_color_spot_keukenwand
    - light.hue_lightstrip_plus_bank
@@ -43,9 +43,14 @@ exclude:
    - light.on_off_plug_1
    - light.on_off_plug_schuur
    - light.on_off_plug_voortuin
+  ### Zones niet tonen
+   - light.keuken_buffetkast
+   - light.keuken_wand
    - light.slaapkamer_nachtlamp_links
    - light.slaapkamer_nachtlamp_rechts
    - light.zolder_entertainment
+   - light.woonkamer_bank
+   - light.woonkamer_tv
 #### Inputselect witgoed
 #   - input_select.wasdroger_status
 #   - input_select.wasmachine_status

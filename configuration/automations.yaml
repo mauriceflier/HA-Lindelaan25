@@ -186,6 +186,7 @@
     data:
       with_group: true
   - service: media_player.media_pause
+    entity_id: group.sonosplayers
   - service: notify.html5_m_flier_oneplus6
     data:
       message: Alarm ingeschakeld, Sonos uitgeschakeld

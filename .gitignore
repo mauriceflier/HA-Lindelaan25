@@ -19,9 +19,7 @@ tts
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
-
-mauriceflier
-xw3y4gAhGrMc
+_hulpje.yaml
 
 git remote add origin https://github.com/mauriceflier/HA-Lindelaan25
 git push -u origin master
