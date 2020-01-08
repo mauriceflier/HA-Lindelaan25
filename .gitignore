@@ -2,24 +2,35 @@
 # A * ensures that everything will be ignored.
 *
 
-# You can whitelist files/folders with !, these will not be ignored.
+### You can whitelist files/folders with !, these will not be ignored.
 !*.yaml
 !.gitignore
 !*.md
 !configuration
+!lovelace
 
-# Ignore folders.
-.storage
-.cloud
-.google.token
-tts
+# ...even if they are in subdirectories
+!*/
+
+### Ignore folders.
+.storage/
+.cloud/
+.google.token/
+tts/
 
 
-# Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
+### Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
 _hulpje.yaml
 
-git remote add origin https://github.com/mauriceflier/HA-Lindelaan25
-git push -u origin master
+# https://www.home-assistant.io/docs/ecosystem/backup/backup_github/
+# git add .
+# git status
+# echo -n "Enter the Description for the Change: " [Minor Update]
+# read CHANGE_MSG
+# git commit -m "${CHANGE_MSG}"
+# git push origin master
+# user: mauriceflier
+# pass: d61f7de1da508bdbc0b7a286e2df172dedfe94ed

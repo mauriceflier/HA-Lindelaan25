@@ -1,0 +1,383 @@
+{
+    "data": {
+        "config": {
+            "title": "Lindelaan",
+            "views": [
+                {
+                    "badges": [
+                        "person.maurice",
+                        "person.bianca",
+                        "sun.sun",
+                        "alarm_control_panel.woonhuis",
+                        "sensor.tesla_battery"
+                    ],
+                    "cards": [
+                        {
+                            "entity": "weather.lindelaan",
+                            "type": "weather-forecast"
+                        },
+                        {
+                            "detail": 2,
+                            "entity": "sensor.electricity_sum",
+                            "graph": "line",
+                            "hours_to_show": 4,
+                            "type": "sensor"
+                        },
+                        {
+                            "detail": 2,
+                            "entity": "sensor.daily_electricity_sum",
+                            "graph": "line",
+                            "type": "sensor"
+                        },
+                        {
+                            "entity": "alarm_control_panel.woonhuis",
+                            "states": [
+                                "arm_home",
+                                "arm_away"
+                            ],
+                            "type": "alarm-panel"
+                        },
+                        {
+                            "camera_image": "camera.m2025_le_0",
+                            "entities": [],
+                            "title": "Achtertuin",
+                            "type": "picture-glance"
+                        },
+                        {
+                            "camera_image": "camera.p1343_0",
+                            "entities": [],
+                            "title": "Voortuin",
+                            "type": "picture-glance"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "light.woonkamer"
+                                },
+                                {
+                                    "entity": "light.slaapkamer"
+                                },
+                                {
+                                    "entity": "light.tuin"
+                                },
+                                {
+                                    "entity": "light.zolder"
+                                }
+                            ],
+                            "title": "Hue Verlichting",
+                            "type": "entities"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.wasmachine_status"
+                                },
+                                {
+                                    "entity": "sensor.wasdroger_status"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "type": "entities"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "switch.sonoff_computers"
+                                },
+                                {
+                                    "entity": "switch.pc_maurice"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "title": "Schakelaars",
+                            "type": "entities"
+                        }
+                    ],
+                    "icon": "mdi:home",
+                    "panel": false,
+                    "path": "default_view",
+                    "title": "Home"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "entity": "light.woonkamer",
+                            "hold_action": {
+                                "action": "more-info"
+                            },
+                            "icon": "mdi:sofa",
+                            "name": "Woonkamer",
+                            "show_icon": true,
+                            "show_name": true,
+                            "tap_action": {
+                                "action": "call-service",
+                                "service": "script.hue_woonkamer_onoff"
+                            },
+                            "type": "entity-button"
+                        }
+                    ],
+                    "icon": "mdi:lightbulb",
+                    "panel": false,
+                    "path": "lighting",
+                    "title": "Lighting"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "entity": "alarm_control_panel.woonhuis",
+                            "states": [
+                                "arm_home",
+                                "arm_away"
+                            ],
+                            "type": "alarm-panel"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "alarm_control_panel.woonhuis"
+                                },
+                                {
+                                    "entity": "binary_sensor.mg_balkondeur_history"
+                                },
+                                {
+                                    "entity": "binary_sensor.mg_meterkast_history"
+                                },
+                                {
+                                    "entity": "binary_sensor.mg_schuifpui_history"
+                                },
+                                {
+                                    "entity": "binary_sensor.mg_voordeur_history"
+                                },
+                                {
+                                    "entity": "binary_sensor.spc_pir_woonkamer"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "theme": "Backend-selected",
+                            "title": "Alarmsysteem",
+                            "type": "entities"
+                        },
+                        {
+                            "camera_image": "camera.p1343_0",
+                            "entities": [],
+                            "title": "Voortuin",
+                            "type": "picture-glance"
+                        },
+                        {
+                            "camera_image": "camera.m2025_le_0",
+                            "entities": [],
+                            "title": "Achtertuin",
+                            "type": "picture-glance"
+                        }
+                    ],
+                    "icon": "mdi:home-lock",
+                    "path": "alarm-paneel",
+                    "title": "Alarm Paneel"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.sonoff_koelkast_energy_power"
+                                },
+                                {
+                                    "entity": "sensor.sonoff_vriezer_energy_power"
+                                },
+                                {
+                                    "entity": "sensor.sonoff_wasmachine_energy_power"
+                                },
+                                {
+                                    "entity": "sensor.sonoff_wasdroger_energy_power"
+                                },
+                                {
+                                    "entity": "sensor.sonoff_computers_energy_power"
+                                },
+                                {
+                                    "entity": "sensor.sonoff_meterkast_energy_power"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "title": "Huidig energieverbruik",
+                            "type": "entities"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.sonoff_koelkast_energy_today"
+                                },
+                                {
+                                    "entity": "sensor.sonoff_vriezer_energy_today"
+                                },
+                                {
+                                    "entity": "sensor.sonoff_wasmachine_energy_today"
+                                },
+                                {
+                                    "entity": "sensor.sonoff_wasdroger_energy_today"
+                                },
+                                {
+                                    "entity": "sensor.sonoff_computers_energy_today"
+                                },
+                                {
+                                    "entity": "sensor.sonoff_meterkast_energy_today"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "title": "Dagelijks energieverbruik",
+                            "type": "entities"
+                        }
+                    ],
+                    "icon": "mdi:flash",
+                    "path": "power",
+                    "title": "Power"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "entity": "sensor.tesla_battery",
+                            "max": 100,
+                            "min": 0,
+                            "name": "Tesla Battery",
+                            "severity": {
+                                "green": 40,
+                                "red": 0,
+                                "yellow": 20
+                            },
+                            "theme": "default",
+                            "type": "gauge"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "switch.tesla_hvac_control"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "title": "Tesla Preconditioning",
+                            "type": "entities"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.home_to_pwa"
+                                },
+                                {
+                                    "entity": "sensor.pwa_to_home"
+                                }
+                            ],
+                            "type": "entities"
+                        }
+                    ],
+                    "icon": "mdi:car",
+                    "path": "tesla",
+                    "title": "Tesla"
+                },
+                {
+                    "badges": [
+                        "media_player.kitchen",
+                        "media_player.living_quarters",
+                        "media_player.master_bedroom",
+                        "media_player.lavatory",
+                        "media_player.garden"
+                    ],
+                    "cards": [
+                        {
+                            "entity": "media_player.master_bedroom",
+                            "type": "media-control"
+                        },
+                        {
+                            "entity": "media_player.lavatory",
+                            "type": "media-control"
+                        },
+                        {
+                            "entity": "media_player.kitchen",
+                            "type": "media-control"
+                        },
+                        {
+                            "entity": "media_player.garden",
+                            "type": "media-control"
+                        },
+                        {
+                            "entity": "media_player.living_quarters",
+                            "type": "media-control"
+                        },
+                        {
+                            "entity": "media_player.tv_woonkamer",
+                            "type": "media-control"
+                        }
+                    ],
+                    "icon": "mdi:music",
+                    "path": "sonos",
+                    "title": "Sonos"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "entities": [
+                                "sensor.sonoff_wasmachine_energy_power"
+                            ],
+                            "hours_to_show": 4,
+                            "refresh_interval": 0,
+                            "title": "Wasmachine 4 uur",
+                            "type": "history-graph"
+                        },
+                        {
+                            "entities": [
+                                "sensor.sonoff_wasmachine_energy_power"
+                            ],
+                            "hours_to_show": 2,
+                            "title": "Wasmachine 2 uur",
+                            "type": "history-graph"
+                        },
+                        {
+                            "entities": [
+                                "sensor.sonoff_wasmachine_energy_power"
+                            ],
+                            "hours_to_show": 1,
+                            "title": "Wasmachine 1 uur",
+                            "type": "history-graph"
+                        },
+                        {
+                            "entities": [
+                                "sensor.sonoff_wasdroger_energy_power"
+                            ],
+                            "hours_to_show": 6,
+                            "title": "Wasdroger 6 uur",
+                            "type": "history-graph"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.wakeup_alarm_time"
+                                },
+                                {
+                                    "entity": "sensor.wakeup_fadein_duration"
+                                },
+                                {
+                                    "entity": "input_number.wakeup_hour"
+                                },
+                                {
+                                    "entity": "input_number.wakeup_minutes"
+                                },
+                                {
+                                    "entity": "sensor.wakeup_fadein_duration"
+                                }
+                            ],
+                            "type": "entities"
+                        }
+                    ],
+                    "icon": "mdi:vector-polyline",
+                    "path": "test-graph",
+                    "title": "test graph"
+                }
+            ]
+        }
+    },
+    "key": "lovelace",
+    "version": 1
+}
