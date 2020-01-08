@@ -24,13 +24,3 @@ ip_bans.yaml
 secrets.yaml
 known_devices.yaml
 _hulpje.yaml
-
-# https://www.home-assistant.io/docs/ecosystem/backup/backup_github/
-# git add .
-# git status
-# echo -n "Enter the Description for the Change: " [Minor Update]
-# read CHANGE_MSG
-# git commit -m "${CHANGE_MSG}"
-# git push origin master
-# user: mauriceflier
-# pass: d61f7de1da508bdbc0b7a286e2df172dedfe94ed
