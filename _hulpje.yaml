@@ -68,3 +68,53 @@ docker run -d \
   --link mariadb:db  \
   -p 8080:80  \
   phpmyadmin/phpmyadmin
+  
+docker run -d \
+  --name="zabbixproxy"  \
+  -v /volume1/docker/zabbixproxy:/usr/lib/zabbix  \
+  -e ZBX_PROXYMODE=0  \
+  -e ZBX_HOSTNAME=nas.flier  \
+  -e ZBX_SERVER_HOST=192.168.21.250  \
+  -e ZBX_SERVER_PORT=10051  \
+  -d zabbix/zabbix-proxy-sqlite3:alpine-4.4-latest
+  
+docker run -d \
+  -p 8081:80  \
+  --name spotweb  \
+  --link mariadb:mariadb
+  -v /etc/localtime:/etc/localtime:ro  \
+  -e "DB_HOST=mariadb"  \
+  -e "DB_PORT=3306"  \
+  -e "DB_NAME=spotweb"  \
+  -e "DB_USER=spotweb"  \
+  -e "DB_PASS=spotweb"  \
+  erikdevries/spotweb
+  
+  docker run -d  \
+  --name=radarr  \
+  -e PUID=1000  \
+  -e PGID=1000  \
+  -e TZ=Europe/Amsterdam  \
+  -e UMASK_SET=022 `#optional`  \
+  -p 7878:7878  \
+  -v /volume1/docker/radarr:/config  \
+  -v /volume1/movies:/movies  \
+  -v /volume1/downloads/completed/Movies:/downloads  \
+  --restart unless-stopped  \
+  linuxserver/radarr
+  
+  docker run -d  \
+  --name=sonarr  \
+  -e PUID=1000  \
+  -e PGID=1000  \
+  -e TZ=Europe/Amsterdam  \
+  -e UMASK_SET=022 `#optional`  \
+  -p 8989:8989  \
+  -v /volume1/docker/sonarr:/config \
+  -v /volume1/series:/tv  \
+  -v /volume1/downloads/completed/Series:/downloads  \
+  --restart unless-stopped  \
+  linuxserver/sonarr
+  
+  
+  /usr/local/bin/php70 /volume1/web/spotweb/retrieve.php
